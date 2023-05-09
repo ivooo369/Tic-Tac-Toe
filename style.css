@@ -1,9 +1,30 @@
-html,
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+html {
     height: 100vh;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+}
+
+.disabled {
+    display: none;
+}
+
+.start-page-container {
+    height: calc(100% - (6rem + 6px));
+}
+
+nav {
+    text-align: center;
+    font-size: 5rem;
+    border: 3px solid black;
+    height: 6rem;
+}
+
+.pre-game-container {
+    display: grid;
+    grid-template: 1fr / 1fr 1fr;
 }
 
 #game-board {
@@ -16,4 +37,40 @@ body {
 
 .square {
     border: 3px solid black;
+}
+
+.chose-a-name {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.chose-a-name input {
+    height: 1rem;
+}
+
+.signs-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.sign {
+    width: 7rem;
+    height: 7rem;
+}
+
+.player-container {
+    justify-self: center;
+    padding: 4rem;
+    border: 3px solid black;
+    border-radius: 2rem;
+    margin-top: 3rem;
+}
+
+.start-button-container {
+    display: flex;
+    justify-content: center;
+    grid-column: 1 / 3;
+    margin-top: 3rem;
+
 }
