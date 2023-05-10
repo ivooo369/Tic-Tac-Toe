@@ -1,8 +1,14 @@
+* {
+    margin: 0;
+}
+
 html {
     height: 100vh;
 }
 
 body {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
     height: 100vh;
     margin: 0;
 }
@@ -13,13 +19,15 @@ body {
 
 .start-page-container {
     height: calc(100% - (6rem + 6px));
+    background-image: url("./imgs/background1.jpg");
 }
 
 nav {
+    color: #ffffff;
     text-align: center;
     font-size: 5rem;
-    border: 3px solid black;
     height: 6rem;
+    background-image: url("https://cdn.shopify.com/s/files/1/0949/5440/products/72dpi-A-329-K_grande.jpg?v=1671104642");
 }
 
 .pre-game-container {
@@ -40,7 +48,13 @@ nav {
 }
 
 .chose-a-name {
+    margin-bottom: 3rem;
+}
+
+.chose-a-name,
+.chose-a-sign {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 1rem;
 }
@@ -55,16 +69,25 @@ nav {
 }
 
 .sign {
-    width: 7rem;
-    height: 7rem;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+.sign img {
+    width: 6rem;
+    height: 6rem;
 }
 
 .player-container {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
     justify-self: center;
-    padding: 4rem;
+    padding: 3rem 5rem;
     border: 3px solid black;
     border-radius: 2rem;
-    margin-top: 3rem;
+    margin-top: 5rem;
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 .start-button-container {
