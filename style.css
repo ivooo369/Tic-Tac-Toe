@@ -25,9 +25,10 @@ body {
 nav {
     color: #ffffff;
     text-align: center;
-    font-size: 5rem;
+    font-size: 3.5rem;
     height: 6rem;
-    background-image: url("https://cdn.shopify.com/s/files/1/0949/5440/products/72dpi-A-329-K_grande.jpg?v=1671104642");
+    background-image: url("https://www.shutterstock.com/image-vector/seamless-pattern-game-tic-tac-600w-709731865.jpg");
+    text-shadow: 3px 3px 5px #ffffff;
 }
 
 .pre-game-container {
