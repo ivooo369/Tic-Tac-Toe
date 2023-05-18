@@ -64,12 +64,12 @@ nav {
     height: 1rem;
 }
 
-.signs-container {
+.signs-containers {
     display: flex;
     gap: 2rem;
 }
 
-.sign {
+.signs {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,14 +78,15 @@ nav {
     border-radius: 1rem;
     padding: 0.5rem;
     box-shadow: 0.2rem 0.2rem 0.3rem black;
+    transition: 0.3s ease-in-out;
 }
 
-.sign img {
+.signs img {
     width: 6rem;
     height: 6rem;
 }
 
-.player-container {
+.player-containers {
     font-size: 1.5rem;
     font-weight: bold;
     color: #ffffff;
@@ -128,4 +129,19 @@ input[type=text] {
     font-size: 1.5rem;
     padding: 0.5rem;
     box-shadow: 0.2rem 0.2rem 0.3rem black;
+    border: 3px solid black;
+    transition: 0.3s ease-in-out;
+}
+
+#start-button:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.signs:hover,
+.active {
+    cursor: pointer;
+    border: 3px solid gold;
+    transform: scale(1.1);
+    background-color: #f7ffa2;
 }
