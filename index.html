@@ -17,14 +17,14 @@
     </nav>
     <div class="start-page-container">
         <div class="pre-game-container">
-            <div class="player-containers">
+            <div class="player-container">
                 <div class="chose-a-name">
                     <p>Player1's name:</p>
-                    <input type="text" required>
+                    <input type="text" id="player1-name">
                 </div>
                 <div class="chose-a-sign">
                     <p>Player1's sign:</p>
-                    <div class="signs-containers">
+                    <div class="signs-container">
                         <div id="player1-X" class="signs">
                             <img src="./imgs/X.png" alt="X">
                         </div>
@@ -34,14 +34,14 @@
                     </div>
                 </div>
             </div>
-            <div class="player-containers">
+            <div class="player-container">
                 <div class="chose-a-name">
                     <p>Player2's name:</p>
-                    <input type="text" required>
+                    <input type="text" id="player2-name">
                 </div>
                 <div class="chose-a-sign">
                     <p>Player2's sign:</p>
-                    <div class="signs-containers">
+                    <div class="signs-container">
                         <div id="player2-X" class="signs">
                             <img src="./imgs/X.png" alt="X">
                         </div>
@@ -57,7 +57,8 @@
         </div>
     </div>
 
-    <div class="main-container disabled">
+    <div class="main-page-container">
+        <p id="contestants-names"><span id="player1-name"></span> vs <span id="player2-name"></span></p>
         <div id="game-board">
             <div class="square"></div>
             <div class="square"></div>

@@ -13,39 +13,59 @@ body {
     margin: 0;
 }
 
-.disabled {
-    display: none;
-}
-
-.start-page-container {
-    height: calc(100% - (6rem + 6px));
-    background-image: url("./imgs/background1.jpg");
-}
-
 nav {
     color: #ffffff;
     text-align: center;
-    font-size: 3.5rem;
-    height: 6rem;
+    font-size: 3rem;
+    height: 5rem;
     background-image: url("https://www.shutterstock.com/image-vector/seamless-pattern-game-tic-tac-600w-709731865.jpg");
     text-shadow: 0.2rem 0.2rem 0.3rem #ffffff;
+}
+
+.start-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 5rem);
+    background-image: url("./imgs/background1.jpg");
 }
 
 .pre-game-container {
     display: grid;
     grid-template: 1fr / 1fr 1fr;
+    width: 75%;
+}
+
+.main-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 5rem);
+    background-image: url('https://img.myloview.com/stickers/black-tic-tac-toe-game-icon-isolated-seamless-pattern-on-white-background-vector-700-233121076.jpg');
 }
 
 #game-board {
     display: grid;
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
-    width: 500px;
-    height: 500px;
+    width: 25rem;
+    height: 25rem;
     border: 3px solid black;
+    background-color: #efefef;
+    z-index: 1;
+    box-shadow: 0.5rem 0.5rem 5rem black;
 }
 
 .square {
-    border: 3px solid black;
+    border: 3px double black;
+}
+
+#contestants-names {
+    display: flex;
+    background-color: #000000;
+    color: #ffffff;
+    border-radius: 1rem;
+    /* width: 5rem;
+    height: 2rem; */
 }
 
 .chose-a-name {
@@ -64,7 +84,7 @@ nav {
     height: 1rem;
 }
 
-.signs-containers {
+.signs-container {
     display: flex;
     gap: 2rem;
 }
@@ -86,7 +106,7 @@ nav {
     height: 6rem;
 }
 
-.player-containers {
+.player-container {
     font-size: 1.5rem;
     font-weight: bold;
     color: #ffffff;
@@ -94,7 +114,7 @@ nav {
     padding: 3rem 5rem;
     border: 3px solid black;
     border-radius: 2rem;
-    margin-top: 5rem;
+    margin: 3rem auto 1rem auto;
     background-color: rgba(0, 0, 0, 0.75);
     box-shadow: 0.3rem 0.3rem 3rem black;
 }
