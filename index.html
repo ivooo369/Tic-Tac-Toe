@@ -20,7 +20,7 @@
             <div class="player-container">
                 <div class="chose-a-name">
                     <p>Player1's name:</p>
-                    <input type="text" id="player1-name">
+                    <input type="text" id="input-player1-name">
                 </div>
                 <div class="chose-a-sign">
                     <p>Player1's sign:</p>
@@ -37,7 +37,7 @@
             <div class="player-container">
                 <div class="chose-a-name">
                     <p>Player2's name:</p>
-                    <input type="text" id="player2-name">
+                    <input type="text" id="input-player2-name">
                 </div>
                 <div class="chose-a-sign">
                     <p>Player2's sign:</p>
@@ -58,7 +58,7 @@
     </div>
 
     <div class="main-page-container">
-        <p id="contestants-names"><span id="player1-name"></span> vs <span id="player2-name"></span></p>
+        <p id="contestants-names"><span id="span-player1-name"></span> vs <span id="span-player2-name"></span></p>
         <div id="game-board">
             <div class="square"></div>
             <div class="square"></div>
@@ -69,6 +69,11 @@
             <div class="square"></div>
             <div class="square"></div>
             <div class="square"></div>
+        </div>
+        <div class="score-container">
+            <div class="score" id="player1-score"></div>
+            <div class="score" id="number-of-ties"></div>
+            <div class="score" id="player2-score"></div>
         </div>
     </div>
 

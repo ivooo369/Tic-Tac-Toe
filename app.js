@@ -6,9 +6,14 @@ const startButton = document.querySelector('#start-button');
 const startPageContainer = document.querySelector('.start-page-container');
 const mainPageContainer = document.querySelector('.main-page-container');
 const contestantsNames = document.querySelector('#contestants-names');
-const player1Name = document.querySelector('#player1-name');
-const player2Name = document.querySelector('#player2-name');
+const inputPlayer1Name = document.querySelector('#input-player1-name');
+const inputPlayer2Name = document.querySelector('#input-player2-name');
+const spanPlayer1Name = document.querySelector('#span-player1-name');
+const spanPlayer2Name = document.querySelector('#span-player2-name');
 const signs = document.querySelectorAll('.signs');
+const player1Score = document.querySelector('#player1-score');
+const numberOfTies = document.querySelector('#number-of-ties');
+const player2Score = document.querySelector('#player2-score');
 
 let isPlayer1_X = false;
 let isPlayer1_O = false;
@@ -51,13 +56,17 @@ startButton.addEventListener('click', function (e) {
     if (validateNames() && validateSignSelection()) {
         e.preventDefault();
         startPageContainer.style.display = 'none';
-        mainPageContainer.style.display = 'block';
-        contestantsNames.innerText = `${player1Name.value} vs ${player2Name.value}`;
+        mainPageContainer.style.display = 'flex';
+        spanPlayer1Name.innerText = `${inputPlayer1Name.value}`;
+        spanPlayer2Name.innerText = `${inputPlayer2Name.value}`;
+        player1Score.innerText = inputPlayer1Name.value;
+        numberOfTies.innerText = 'Ties';
+        player2Score.innerText = inputPlayer2Name.value;
     }
 });
 
-player1Name.addEventListener('input', () => player1Name.setCustomValidity(''));
-player2Name.addEventListener('input', () => player2Name.setCustomValidity(''));
+inputPlayer1Name.addEventListener('input', () => inputPlayer1Name.setCustomValidity(''));
+inputPlayer2Name.addEventListener('input', () => inputPlayer2Name.setCustomValidity(''));
 
 function selectSign() {
     if (isPlayer1_X) {
@@ -80,22 +89,22 @@ function selectSign() {
 }
 
 function validateNames() {
-    if (player1Name.value === '') {
-        player1Name.setCustomValidity('Please enter a name for Player 1.');
-        player1Name.reportValidity();
+    if (inputPlayer1Name.value === '') {
+        inputPlayer1Name.setCustomValidity('Please enter a name for Player 1.');
+        inputPlayer1Name.reportValidity();
         return false;
-    } else if (player2Name.value === '') {
-        player2Name.setCustomValidity('Please enter a name for Player 2.');
-        player2Name.reportValidity();
+    } else if (inputPlayer2Name.value === '') {
+        inputPlayer2Name.setCustomValidity('Please enter a name for Player 2.');
+        inputPlayer2Name.reportValidity();
         return false;
     }
-    if (!(player1Name.value.length >= 3 && player1Name.value.length <= 15)) {
-        player1Name.setCustomValidity('The name of the player must be between 3 and 15 characters.');
-        player1Name.reportValidity();
+    if (!(inputPlayer1Name.value.length >= 3 && inputPlayer1Name.value.length <= 15)) {
+        inputPlayer1Name.setCustomValidity('The name of the player must be between 3 and 15 characters.');
+        inputPlayer1Name.reportValidity();
         return false;
-    } else if (!(player2Name.value.length >= 3 && player2Name.value.length <= 15)) {
-        player2Name.setCustomValidity('The name of the player must be between 3 and 15 characters.');
-        player2Name.reportValidity();
+    } else if (!(inputPlayer2Name.value.length >= 3 && inputPlayer2Name.value.length <= 15)) {
+        inputPlayer2Name.setCustomValidity('The name of the player must be between 3 and 15 characters.');
+        inputPlayer2Name.reportValidity();
         return false;
     }
     return true;
