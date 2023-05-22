@@ -97,6 +97,10 @@ function validateNames() {
         inputPlayer2Name.setCustomValidity('Please enter a name for Player 2.');
         inputPlayer2Name.reportValidity();
         return false;
+    } else if (inputPlayer1Name.value === inputPlayer2Name.value) {
+        inputPlayer2Name.setCustomValidity('Please enter different names for both players.');
+        inputPlayer2Name.reportValidity();
+        return false;
     }
     if (!(inputPlayer1Name.value.length >= 3 && inputPlayer1Name.value.length <= 15)) {
         inputPlayer1Name.setCustomValidity('The name of the player must be between 3 and 15 characters.');
