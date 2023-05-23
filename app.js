@@ -14,6 +14,7 @@ const signs = document.querySelectorAll('.signs');
 const player1Score = document.querySelector('#player1-score');
 const numberOfTies = document.querySelector('#number-of-ties');
 const player2Score = document.querySelector('#player2-score');
+const exit = document.querySelector('#exit');
 
 let isPlayer1_X = false;
 let isPlayer1_O = false;
@@ -68,6 +69,16 @@ startButton.addEventListener('click', function (e) {
 inputPlayer1Name.addEventListener('input', () => inputPlayer1Name.setCustomValidity(''));
 inputPlayer2Name.addEventListener('input', () => inputPlayer2Name.setCustomValidity(''));
 
+exit.addEventListener('click', function () {
+    mainPageContainer.style.display = 'none';
+    startPageContainer.style.display = 'flex';
+    inputPlayer1Name.value = '';
+    inputPlayer2Name.value = '';
+    signs.forEach(sign => {
+        sign.classList.remove('active');
+    });
+});
+
 function selectSign() {
     if (isPlayer1_X) {
         player1_X.classList.toggle('active');
@@ -115,7 +126,7 @@ function validateNames() {
 }
 
 function validateSignSelection() {
-    if (!(player1_X.classList.contains('active') || player1_O.classList.contains('active')) &&
+    if (!(player1_X.classList.contains('active') || player1_O.classList.contains('active')) ||
         !(player2_X.classList.contains('active') || player2_O.classList.contains('active'))) {
         signs.forEach(sign => {
             sign.style.border = '3px solid red';
