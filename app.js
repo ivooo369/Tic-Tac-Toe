@@ -1,55 +1,58 @@
-const player1_X = document.querySelector('#player1-X');
-const player1_O = document.querySelector('#player1-O');
-const player2_X = document.querySelector('#player2-X');
-const player2_O = document.querySelector('#player2-O');
+const playerOne_X = document.querySelector('#playerOne-X');
+const playerOne_O = document.querySelector('#playerOne-O');
+const playerTwo_X = document.querySelector('#playerTwo-X');
+const playerTwo_O = document.querySelector('#playerTwo-O');
 const startButton = document.querySelector('#start-button');
 const startPageContainer = document.querySelector('.start-page-container');
 const mainPageContainer = document.querySelector('.main-page-container');
 const contestantsNames = document.querySelector('#contestants-names');
-const inputPlayer1Name = document.querySelector('#input-player1-name');
-const inputPlayer2Name = document.querySelector('#input-player2-name');
-const spanPlayer1Name = document.querySelector('#span-player1-name');
-const spanPlayer2Name = document.querySelector('#span-player2-name');
+const inputPlayerOneName = document.querySelector('#input-playerOne-name');
+const inputPlayerTwoName = document.querySelector('#input-playerTwo-name');
+const spanPlayerOneName = document.querySelector('#span-playerOne-name');
+const spanPlayerTwoName = document.querySelector('#span-playerTwo-name');
 const signs = document.querySelectorAll('.signs');
-const player1Score = document.querySelector('#player1-score');
+const playerOneScore = document.querySelector('#playerOne-score');
 const numberOfTies = document.querySelector('#number-of-ties');
-const player2Score = document.querySelector('#player2-score');
+const playerTwoScore = document.querySelector('#playerTwo-score');
 const exit = document.querySelector('#exit');
 
-let isPlayer1_X = false;
-let isPlayer1_O = false;
-let isPlayer2_X = false;
-let isPlayer2_O = false;
+let isPlayerOne_X = false;
+let isPlayerOne_O = false;
+let isPlayerTwo_X = false;
+let isPlayerTwo_O = false;
 
-player1_X.addEventListener('click', function () {
-    isPlayer1_X = true;
-    isPlayer1_O = false;
-    isPlayer2_X = false;
-    isPlayer2_O = false;
+let playerOneChoice = '';
+let playerTwoChoice = '';
+
+playerOne_X.addEventListener('click', function () {
+    isPlayerOne_X = true;
+    isPlayerOne_O = false;
+    isPlayerTwo_X = false;
+    isPlayerTwo_O = false;
     selectSign();
 });
 
-player1_O.addEventListener('click', function () {
-    isPlayer1_O = true;
-    isPlayer1_X = false;
-    isPlayer2_X = false;
-    isPlayer2_O = false;
+playerOne_O.addEventListener('click', function () {
+    isPlayerOne_O = true;
+    isPlayerOne_X = false;
+    isPlayerTwo_X = false;
+    isPlayerTwo_O = false;
     selectSign();
 });
 
-player2_X.addEventListener('click', function () {
-    isPlayer2_X = true;
-    isPlayer1_X = false;
-    isPlayer1_O = false;
-    isPlayer2_O = false;
+playerTwo_X.addEventListener('click', function () {
+    isPlayerTwo_X = true;
+    isPlayerOne_X = false;
+    isPlayerOne_O = false;
+    isPlayerTwo_O = false;
     selectSign();
 });
 
-player2_O.addEventListener('click', function () {
-    isPlayer2_O = true;
-    isPlayer1_X = false;
-    isPlayer1_O = false;
-    isPlayer2_X = false;
+playerTwo_O.addEventListener('click', function () {
+    isPlayerTwo_O = true;
+    isPlayerOne_X = false;
+    isPlayerOne_O = false;
+    isPlayerTwo_X = false;
     selectSign();
 });
 
@@ -58,76 +61,80 @@ startButton.addEventListener('click', function (e) {
         e.preventDefault();
         startPageContainer.style.display = 'none';
         mainPageContainer.style.display = 'flex';
-        spanPlayer1Name.innerText = `${inputPlayer1Name.value}`;
-        spanPlayer2Name.innerText = `${inputPlayer2Name.value}`;
-        player1Score.innerText = inputPlayer1Name.value;
+        spanPlayerOneName.innerText = `${inputPlayerOneName.value}`;
+        spanPlayerTwoName.innerText = `${inputPlayerTwoName.value}`;
+        playerOneScore.innerText = inputPlayerOneName.value;
         numberOfTies.innerText = 'Ties';
-        player2Score.innerText = inputPlayer2Name.value;
+        playerTwoScore.innerText = inputPlayerTwoName.value;
     }
 });
 
-inputPlayer1Name.addEventListener('input', () => inputPlayer1Name.setCustomValidity(''));
-inputPlayer2Name.addEventListener('input', () => inputPlayer2Name.setCustomValidity(''));
+inputPlayerOneName.addEventListener('input', () => inputPlayerOneName.setCustomValidity(''));
+inputPlayerTwoName.addEventListener('input', () => inputPlayerTwoName.setCustomValidity(''));
 
 exit.addEventListener('click', function () {
     mainPageContainer.style.display = 'none';
     startPageContainer.style.display = 'flex';
-    inputPlayer1Name.value = '';
-    inputPlayer2Name.value = '';
+    inputPlayerOneName.value = '';
+    inputPlayerTwoName.value = '';
     signs.forEach(sign => {
         sign.classList.remove('active');
     });
 });
 
 function selectSign() {
-    if (isPlayer1_X) {
-        player1_X.classList.toggle('active');
-        player1_O.classList.remove('active');
-        player2_X.classList.remove('active');
-    } else if (isPlayer1_O) {
-        player1_O.classList.toggle('active');
-        player1_X.classList.remove('active');
-        player2_O.classList.remove('active');
-    } else if (isPlayer2_X) {
-        player2_X.classList.toggle('active');
-        player1_X.classList.remove('active');
-        player2_O.classList.remove('active');
-    } else if (isPlayer2_O) {
-        player2_O.classList.toggle('active');
-        player1_O.classList.remove('active');
-        player2_X.classList.remove('active');
+    if (isPlayerOne_X) {
+        playerOneChoice = 'X';
+        playerOne_X.classList.toggle('active');
+        playerOne_O.classList.remove('active');
+        playerTwo_X.classList.remove('active');
+    } else if (isPlayerOne_O) {
+        playerOneChoice = 'O';
+        playerOne_O.classList.toggle('active');
+        playerOne_X.classList.remove('active');
+        playerTwo_O.classList.remove('active');
+    } else if (isPlayerTwo_X) {
+        playerTwoChoice = 'X';
+        playerTwo_X.classList.toggle('active');
+        playerOne_X.classList.remove('active');
+        playerTwo_O.classList.remove('active');
+    } else if (isPlayerTwo_O) {
+        playerTwoChoice = 'O';
+        playerTwo_O.classList.toggle('active');
+        playerOne_O.classList.remove('active');
+        playerTwo_X.classList.remove('active');
     }
 }
 
 function validateNames() {
-    if (inputPlayer1Name.value === '') {
-        inputPlayer1Name.setCustomValidity('Please enter a name for Player 1.');
-        inputPlayer1Name.reportValidity();
+    if (inputPlayerOneName.value === '') {
+        inputPlayerOneName.setCustomValidity('Please enter a name for Player 1.');
+        inputPlayerOneName.reportValidity();
         return false;
-    } else if (inputPlayer2Name.value === '') {
-        inputPlayer2Name.setCustomValidity('Please enter a name for Player 2.');
-        inputPlayer2Name.reportValidity();
+    } else if (inputPlayerTwoName.value === '') {
+        inputPlayerTwoName.setCustomValidity('Please enter a name for Player 2.');
+        inputPlayerTwoName.reportValidity();
         return false;
-    } else if (inputPlayer1Name.value === inputPlayer2Name.value) {
-        inputPlayer2Name.setCustomValidity('Please enter different names for both players.');
-        inputPlayer2Name.reportValidity();
+    } else if (inputPlayerOneName.value === inputPlayerTwoName.value) {
+        inputPlayerTwoName.setCustomValidity('Please enter different names for both players.');
+        inputPlayerTwoName.reportValidity();
         return false;
     }
-    if (!(inputPlayer1Name.value.length >= 3 && inputPlayer1Name.value.length <= 15)) {
-        inputPlayer1Name.setCustomValidity('The name of the player must be between 3 and 15 characters.');
-        inputPlayer1Name.reportValidity();
+    if (!(inputPlayerOneName.value.length >= 3 && inputPlayerOneName.value.length <= 15)) {
+        inputPlayerOneName.setCustomValidity('The name of the player must be between 3 and 15 characters.');
+        inputPlayerOneName.reportValidity();
         return false;
-    } else if (!(inputPlayer2Name.value.length >= 3 && inputPlayer2Name.value.length <= 15)) {
-        inputPlayer2Name.setCustomValidity('The name of the player must be between 3 and 15 characters.');
-        inputPlayer2Name.reportValidity();
+    } else if (!(inputPlayerTwoName.value.length >= 3 && inputPlayerTwoName.value.length <= 15)) {
+        inputPlayerTwoName.setCustomValidity('The name of the player must be between 3 and 15 characters.');
+        inputPlayerTwoName.reportValidity();
         return false;
     }
     return true;
 }
 
 function validateSignSelection() {
-    if (!(player1_X.classList.contains('active') || player1_O.classList.contains('active')) ||
-        !(player2_X.classList.contains('active') || player2_O.classList.contains('active'))) {
+    if (!(playerOne_X.classList.contains('active') || playerOne_O.classList.contains('active')) ||
+        !(playerTwo_X.classList.contains('active') || playerTwo_O.classList.contains('active'))) {
         signs.forEach(sign => {
             sign.style.border = '3px solid red';
         });
@@ -147,33 +154,130 @@ function Gameboard() {
             board[i].push(Cell());
         }
     }
+
     const getBoard = () => board;
 
-    const putSign = (row, player) => {
-        const availableCells = board.filter((column) => column[row].getValue() === 0).map(column => column[row]);
+    const placeSign = (row, column, sign) => {
+        const cell = board[row][column];
+        if (cell.getValue() === '') {
+            cell.placeSign(sign);
+            return true;
+        }
+        return false;
     };
 
-    if (!availableCells.length) return;
-
     const printBoard = () => {
-        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()));
+        const boardWithCellValues = board.map((row) =>
+            row.map((cell) => cell.getValue())
+        );
         console.log(boardWithCellValues);
     };
 
-    return { getBoard, putSign, printBoard };
+    return { getBoard, placeSign, printBoard };
 }
 
 function Cell() {
-    let value = 0;
+    let value = '';
 
-    const putSign = (player) => {
-        value = player;
+    const placeSign = (sign) => {
+        value = sign;
     };
 
     const getValue = () => value;
 
     return {
-        putSign,
-        getValue
+        placeSign,
+        getValue,
     };
 }
+
+function GameController(playerOneName = inputPlayerOneName.value, playerTwoName = inputPlayerTwoName.value, playerOneChoice,
+    playerTwoChoice) {
+    const board = Gameboard();
+
+    const players = [
+        {
+            name: playerOneName,
+            sign: playerOneChoice,
+        },
+        {
+            name: playerTwoName,
+            sign: playerTwoChoice,
+        },
+    ];
+
+    let activePlayer = players[0];
+
+    const switchPlayerTurn = () => {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+    const getActivePlayer = () => activePlayer;
+
+    const printNewRound = () => {
+        board.printBoard();
+        console.log(`${getActivePlayer().name}'s turn.`);
+    };
+
+    const playRound = (row, column) => {
+        console.log(
+            `Dropping ${getActivePlayer().name}'s token into column ${column}...`
+        );
+        board.placeSign(row, column, getActivePlayer().sign);
+
+        switchPlayerTurn();
+        printNewRound();
+    };
+
+    printNewRound();
+
+    return {
+        playRound,
+        getActivePlayer,
+        getBoard: board.getBoard,
+    };
+}
+
+function ScreenController() {
+    const game = GameController();
+    const boardDiv = document.querySelector("#game-board");
+
+    const updateScreen = () => {
+        // Clear the board
+        boardDiv.innerHTML = "";
+
+        // Get the newest version of the board and active player
+        const board = game.getBoard();
+        const activePlayer = game.getActivePlayer();
+
+        // Display player's turn
+        // const playerTurnDiv = document.createElement("div");
+        // playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+        // boardDiv.appendChild(playerTurnDiv);
+
+        // Render board squares
+        board.forEach((row) => {
+            row.forEach((cell) => {
+                const cellButton = document.createElement("button");
+                cellButton.classList.add("cell");
+                cellButton.textContent = cell.getValue();
+                boardDiv.appendChild(cellButton);
+            });
+        });
+    };
+
+    // Add event listener for the board
+    function clickHandlerBoard(e) {
+        const selectedColumn = e.target.dataset.column;
+        if (!selectedColumn) return;
+        game.playRound(selectedColumn);
+        updateScreen();
+    }
+
+    boardDiv.addEventListener("click", clickHandlerBoard);
+
+    // Initial render
+    updateScreen();
+}
+
+ScreenController();
+

@@ -58,7 +58,7 @@ nav {
     box-shadow: 0.5rem 0.5rem 3rem black;
 }
 
-.square {
+.cell {
     border: 3px solid black;
 }
 
@@ -171,8 +171,8 @@ input[type=text] {
     transition: 0.3s ease-in-out;
 }
 
-#span-player1-name,
-#span-player2-name {
+#span-playerOne-name,
+#span-playerTwo-name {
     font-size: 1.5rem;
 }
 
@@ -192,7 +192,7 @@ input[type=text] {
     text-align: center;
 }
 
-#player1-score {
+#playerOne-score {
     background-color: #640000;
 }
 
@@ -200,7 +200,7 @@ input[type=text] {
     background-color: #006400;
 }
 
-#player2-score {
+#playerTwo-score {
     background-color: #000064;
 }
 
