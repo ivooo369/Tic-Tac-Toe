@@ -66,6 +66,38 @@ startButton.addEventListener('click', function (e) {
         playerOneScore.innerText = inputPlayerOneName.value;
         numberOfTies.innerText = 'Ties';
         playerTwoScore.innerText = inputPlayerTwoName.value;
+
+        // Start the game controller
+        const game = GameController(inputPlayerOneName.value, inputPlayerTwoName.value, playerOneChoice, playerTwoChoice);
+        const boardDiv = document.querySelector("#game-board");
+
+        const updateScreen = () => {
+            // Clear the board
+            boardDiv.innerHTML = "";
+
+            // Get the newest version of the board and active player
+            const board = game.getBoard();
+
+            // Render board squares
+            board.forEach((row, rowIndex) => {
+                row.forEach((cell, columnIndex) => {
+                    const cellButton = document.createElement("button");
+                    cellButton.classList.add("cell");
+                    cellButton.textContent = cell.getValue();
+                    cellButton.addEventListener("click", () => clickHandlerBoard(rowIndex, columnIndex));
+                    boardDiv.appendChild(cellButton);
+                });
+            });
+        };
+
+        // Add event listener for the board
+        function clickHandlerBoard(row, column) {
+            game.playRound(row, column);
+            updateScreen();
+        }
+
+        // Initial render
+        updateScreen();
     }
 });
 
@@ -206,7 +238,8 @@ function GameController(playerOneName = inputPlayerOneName.value, playerTwoName 
         },
     ];
 
-    let activePlayer = players[0];
+    // Set the active player based on the chosen signs
+    let activePlayer = players.find(player => player.sign === 'X') || players[0];
 
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -215,17 +248,14 @@ function GameController(playerOneName = inputPlayerOneName.value, playerTwoName 
 
     const printNewRound = () => {
         board.printBoard();
-        console.log(`${getActivePlayer().name}'s turn.`);
     };
 
     const playRound = (row, column) => {
-        console.log(
-            `Dropping ${getActivePlayer().name}'s token into column ${column}...`
-        );
-        board.placeSign(row, column, getActivePlayer().sign);
-
-        switchPlayerTurn();
-        printNewRound();
+        if (row >= 0 && row < 3 && column >= 0 && column < 3) {
+            board.placeSign(row, column, getActivePlayer().sign);
+            switchPlayerTurn();
+            printNewRound();
+        }
     };
 
     printNewRound();
@@ -250,16 +280,18 @@ function ScreenController() {
         const activePlayer = game.getActivePlayer();
 
         // Display player's turn
-        // const playerTurnDiv = document.createElement("div");
-        // playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
-        // boardDiv.appendChild(playerTurnDiv);
+        const playerTurnDiv = document.querySelector("#player-turn");
+        playerTurnDiv.textContent = `${activePlayer.name}'s turn`;
 
         // Render board squares
-        board.forEach((row) => {
-            row.forEach((cell) => {
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, columnIndex) => {
                 const cellButton = document.createElement("button");
                 cellButton.classList.add("cell");
                 cellButton.textContent = cell.getValue();
+                cellButton.dataset.row = rowIndex; // Set the row index as a dataset attribute
+                cellButton.dataset.column = columnIndex; // Set the column index as a dataset attribute
+                cellButton.addEventListener("click", clickHandlerBoard);
                 boardDiv.appendChild(cellButton);
             });
         });
@@ -267,10 +299,14 @@ function ScreenController() {
 
     // Add event listener for the board
     function clickHandlerBoard(e) {
-        const selectedColumn = e.target.dataset.column;
-        if (!selectedColumn) return;
-        game.playRound(selectedColumn);
-        updateScreen();
+        const selectedButton = e.target;
+        const row = parseInt(selectedButton.dataset.row);
+        const column = parseInt(selectedButton.dataset.column);
+
+        if (!isNaN(row) && !isNaN(column)) {
+            game.playRound(row, column);
+            updateScreen();
+        }
     }
 
     boardDiv.addEventListener("click", clickHandlerBoard);
@@ -280,4 +316,3 @@ function ScreenController() {
 }
 
 ScreenController();
-
