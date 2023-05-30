@@ -198,6 +198,40 @@ function Gameboard() {
         return false;
     };
 
+    const checkWinner = (board) => {
+        const counterTotalRounds = document.querySelector('#counter-total-rounds');
+        const winningCombinations = [
+            // Rows
+            [[0, 0], [0, 1], [0, 2]],
+            [[1, 0], [1, 1], [1, 2]],
+            [[2, 0], [2, 1], [2, 2]],
+            // Columns
+            [[0, 0], [1, 0], [2, 0]],
+            [[0, 1], [1, 1], [2, 1]],
+            [[0, 2], [1, 2], [2, 2]],
+            // Diagonals
+            [[0, 0], [1, 1], [2, 2]],
+            [[0, 2], [1, 1], [2, 0]]
+        ];
+
+        for (const combination of winningCombinations) {
+            const [a, b, c] = combination;
+            const [rowA, colA] = a;
+            const [rowB, colB] = b;
+            const [rowC, colC] = c;
+
+            // Check if all three cells have the same non-empty value
+            if (
+                board[rowA][colA].getValue() !== '' &&
+                board[rowA][colA].getValue() === board[rowB][colB].getValue() &&
+                board[rowA][colA].getValue() === board[rowC][colC].getValue()
+            ) {
+                return true; // There is a winner
+            }
+        }
+        return false; // No winner
+    };
+
     const printBoard = () => {
         const boardWithCellValues = board.map((row) =>
             row.map((cell) => cell.getValue())
@@ -205,7 +239,7 @@ function Gameboard() {
         console.log(boardWithCellValues);
     };
 
-    return { getBoard, placeSign, printBoard };
+    return { getBoard, placeSign, printBoard, checkWinner };
 }
 
 function Cell() {
@@ -246,16 +280,44 @@ function GameController(playerOneName = inputPlayerOneName.value, playerTwoName 
     };
     const getActivePlayer = () => activePlayer;
 
+    const checkWinner = () => {
+        const gameBoard = board.getBoard();
+        return board.checkWinner(gameBoard);
+    };
+
     const printNewRound = () => {
         board.printBoard();
+        const playerTurnDiv = document.querySelector("#player-turn");
+        playerTurnDiv.textContent = `${activePlayer.name}'s turn`;
     };
 
     const playRound = (row, column) => {
-        if (row >= 0 && row < 3 && column >= 0 && column < 3) {
-            board.placeSign(row, column, getActivePlayer().sign);
+        const counterTotalRounds = document.querySelector('#counter-total-rounds');
+        if (checkWinner()) {
+            return; // Don't allow further moves if there is already a winner
+        }
+        const signPlaced = board.placeSign(row, column, getActivePlayer().sign);
+        if (signPlaced) {
+            if (checkWinner()) {
+                const playerTurnDiv = document.querySelector("#player-turn");
+                playerTurnDiv.textContent = `${activePlayer.name} wins!`;
+                counterTotalRounds.textContent = parseInt(counterTotalRounds.textContent + 1);
+                return;
+            }
+            if (isTie()) {
+                const playerTurnDiv = document.querySelector("#player-turn");
+                playerTurnDiv.textContent = "It's a tie!";
+                counterTotalRounds.textContent = parseInt(counterTotalRounds.textContent + 1);
+                return;
+            }
             switchPlayerTurn();
             printNewRound();
         }
+    };
+
+    const isTie = () => {
+        const boardCells = board.getBoard().flat();
+        return boardCells.every(cell => cell.getValue() !== '');
     };
 
     printNewRound();
@@ -271,17 +333,13 @@ function ScreenController() {
     const game = GameController();
     const boardDiv = document.querySelector("#game-board");
 
-    const updateScreen = () => {
+    const updateBoard = () => {
         // Clear the board
         boardDiv.innerHTML = "";
 
         // Get the newest version of the board and active player
         const board = game.getBoard();
-        const activePlayer = game.getActivePlayer();
-
-        // Display player's turn
-        const playerTurnDiv = document.querySelector("#player-turn");
-        playerTurnDiv.textContent = `${activePlayer.name}'s turn`;
+        // const activePlayer = game.getActivePlayer();
 
         // Render board squares
         board.forEach((row, rowIndex) => {
@@ -305,14 +363,14 @@ function ScreenController() {
 
         if (!isNaN(row) && !isNaN(column)) {
             game.playRound(row, column);
-            updateScreen();
+            updateBoard();
         }
     }
 
     boardDiv.addEventListener("click", clickHandlerBoard);
 
     // Initial render
-    updateScreen();
+    updateBoard();
 }
 
 ScreenController();
