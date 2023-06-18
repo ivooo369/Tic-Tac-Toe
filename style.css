@@ -205,15 +205,15 @@ input[type=text] {
     text-align: center;
 }
 
-#playerOne-score {
+#container-playerOne-score {
     background-color: #640000;
 }
 
-#number-of-ties {
+#container-number-of-ties {
     background-color: #006400;
 }
 
-#playerTwo-score {
+#container-playerTwo-score {
     background-color: #000064;
 }
 
