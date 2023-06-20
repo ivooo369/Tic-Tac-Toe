@@ -48,6 +48,72 @@ nav {
     background-image: url('https://img.myloview.com/stickers/black-tic-tac-toe-game-icon-isolated-seamless-pattern-on-white-background-vector-700-233121076.jpg');
 }
 
+.popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    border-radius: 1rem;
+    background: #136a8a;
+    background: -webkit-linear-gradient(to right, #06564f, #04445b);
+    background: linear-gradient(to right, #06564f, #04445b);
+    color: #ffffff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    padding: 2rem;
+    gap: 3rem;
+    visibility: hidden;
+    transition: 0.3s ease-out;
+    box-shadow: #00000000 0px 1px 4px, #ffffff 0px 0px 0px 3px;
+}
+
+.open-popup {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.6;
+}
+
+.overlay.active {
+    display: block;
+}
+
+.popup-buttons-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.popup-button {
+    cursor: pointer;
+    border: none;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    color: #ffffff;
+    background-image: linear-gradient(to right, #206e85 0%, #206e85 51%, #053648 100%);
+    font-weight: bold;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: #00000000 0px 1px 4px, #ffffff 0px 0px 0px 2px;
+}
+
+.popup-button:hover {
+    background-position: right center;
+}
+
 #game-board {
     display: grid;
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
@@ -236,7 +302,8 @@ input[type=text] {
 }
 
 .signs:hover,
-.active {
+.signs:active,
+.signs.active {
     cursor: pointer;
     border: 3px solid gold;
     transform: scale(1.1);

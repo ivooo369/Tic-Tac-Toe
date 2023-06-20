@@ -72,17 +72,17 @@ function initializeGame() {
             numberOfTies.innerText = 'Ties';
             playerTwoScore.innerText = inputPlayerTwoName.value;
             const game = GameController(inputPlayerOneName.value, inputPlayerTwoName.value, playerOneChoice, playerTwoChoice);
-            const boardDiv = document.querySelector("#game-board");
+            const boardDiv = document.querySelector('#game-board');
 
-            const updateScreen = () => {
-                boardDiv.innerHTML = "";
+            function updateScreen() {
+                boardDiv.innerHTML = '';
                 const board = game.getBoard();
                 board.forEach((row, rowIndex) => {
                     row.forEach((cell, columnIndex) => {
-                        const cellButton = document.createElement("button");
-                        cellButton.classList.add("cell");
+                        const cellButton = document.createElement('button');
+                        cellButton.classList.add('cell');
                         cellButton.textContent = cell.getValue();
-                        cellButton.addEventListener("click", () => clickHandlerBoard(rowIndex, columnIndex));
+                        cellButton.addEventListener('click', () => clickHandlerBoard(rowIndex, columnIndex));
                         boardDiv.appendChild(cellButton);
                     });
                 });
@@ -99,7 +99,7 @@ function initializeGame() {
     inputPlayerOneName.addEventListener('input', () => inputPlayerOneName.setCustomValidity(''));
     inputPlayerTwoName.addEventListener('input', () => inputPlayerTwoName.setCustomValidity(''));
 
-    exit.addEventListener('click', function () {
+    exit.addEventListener('click', () => {
         mainPageContainer.style.display = 'none';
         startPageContainer.style.display = 'flex';
         inputPlayerOneName.value = '';
@@ -189,7 +189,7 @@ function Gameboard() {
 
     const getBoard = () => board;
 
-    const placeSign = (row, column, sign) => {
+    function placeSign(row, column, sign) {
         const cell = board[row][column];
         if (cell.getValue() === '') {
             cell.placeSign(sign);
@@ -198,7 +198,7 @@ function Gameboard() {
         return false;
     };
 
-    const checkWinner = (board) => {
+    function checkWinner(board) {
         const winningCombinations = [
             // Rows
             [[0, 0], [0, 1], [0, 2]],
@@ -231,23 +231,17 @@ function Gameboard() {
         return false;
     };
 
-    const printBoard = () => {
-        const boardWithCellValues = board.map((row) =>
-            row.map((cell) => cell.getValue())
+    function printBoard() {
+        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue())
         );
         console.log(boardWithCellValues);
     };
-
     return { getBoard, placeSign, printBoard, checkWinner };
 }
 
 function Cell() {
     let value = '';
-
-    const placeSign = (sign) => {
-        value = sign;
-    };
-
+    const placeSign = (sign) => value = sign;
     const getValue = () => value;
 
     return {
@@ -271,28 +265,38 @@ function GameController(playerOneName, playerTwoName, playerOneChoice, playerTwo
     ];
 
     let activePlayer = players.find(player => player.sign === 'X') || players[0];
-
-    const switchPlayerTurn = () => {
-        activePlayer = activePlayer === players[0] ? players[1] : players[0];
-    };
+    const switchPlayerTurn = () => activePlayer = activePlayer === players[0] ? players[1] : players[0];
     const getActivePlayer = () => activePlayer;
 
-    const checkWinner = () => {
+    function checkWinner() {
         const gameBoard = board.getBoard();
         return board.checkWinner(gameBoard);
     };
 
-    const printNewRound = () => {
+    function printNewRound() {
         board.printBoard();
-        const playerTurnDiv = document.querySelector("#player-turn");
+        const playerTurnDiv = document.querySelector('#player-turn');
         playerTurnDiv.textContent = `${activePlayer.name}'s turn`;
     };
 
-    const playRound = (row, column) => {
+    function handleButtonClicks() {
+        const buttonNewRound = document.querySelector('#button-new-round');
+        const buttonNewGame = document.querySelector('#button-new-game');
+        const boardDiv = document.querySelector('#game-board');
+        buttonNewRound.addEventListener('click', () => {
+            const cells = boardDiv.querySelectorAll('.cell');
+            cells.forEach(cell => cell.innerHTML = '');
+            closePopup();
+        });
+    }
+
+    function playRound(row, column) {
         const counterTotalRounds = document.querySelector('#counter-total-rounds');
         const counterPlayerOneScore = document.querySelector('#counter-playerOne-score');
         const counterPlayerTwoScore = document.querySelector('#counter-playerTwo-score');
         const counterNumberOfTies = document.querySelector('#counter-number-of-ties');
+
+        let isTie = false;
 
         if (checkWinner()) {
             return;
@@ -300,23 +304,35 @@ function GameController(playerOneName, playerTwoName, playerOneChoice, playerTwo
         const signPlaced = board.placeSign(row, column, getActivePlayer().sign);
         if (signPlaced) {
             if (checkWinner()) {
-                const playerTurnDiv = document.querySelector("#player-turn");
+                const playerTurnDiv = document.querySelector('#player-turn');
                 playerTurnDiv.textContent = `${activePlayer.name} wins!`;
                 counterTotalRounds.textContent = parseInt(counterTotalRounds.textContent + 1);
                 if (activePlayer.name === playerOneName) {
+                    // isTie = false;
                     counterPlayerOneScore.textContent = parseInt(counterPlayerOneScore.textContent + 1);
+                    createPopup(isTie);
+                    openPopup();
+                    handleButtonClicks();
                     return;
                 } else if (activePlayer.name === playerTwoName) {
+                    // isTie = false;
                     counterPlayerTwoScore.textContent = parseInt(counterPlayerTwoScore.textContent + 1);
+                    createPopup(isTie);
+                    openPopup();
+                    handleButtonClicks();
                     return;
                 }
                 return;
             }
-            if (isTie()) {
-                const playerTurnDiv = document.querySelector("#player-turn");
+            if (checkForTie()) {
+                isTie = true;
+                const playerTurnDiv = document.querySelector('#player-turn');
                 playerTurnDiv.textContent = "It's a tie!";
                 counterTotalRounds.textContent = parseInt(counterTotalRounds.textContent + 1);
                 counterNumberOfTies.textContent = parseInt(counterNumberOfTies.textContent + 1);
+                createPopup(isTie);
+                openPopup();
+                handleButtonClicks();
                 return;
             }
             switchPlayerTurn();
@@ -324,10 +340,57 @@ function GameController(playerOneName, playerTwoName, playerOneChoice, playerTwo
         }
     };
 
-    const isTie = () => {
+    function checkForTie() {
         const boardCells = board.getBoard().flat();
         return boardCells.every(cell => cell.getValue() !== '');
     };
+
+    function createPopup(isTie) {
+        const mainPageContainer = document.querySelector('.main-page-container');
+        const popup = document.createElement('div');
+        popup.classList.add('popup');
+        mainPageContainer.appendChild(popup);
+        const overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+        mainPageContainer.appendChild(overlay);
+        const popupMessage = document.createElement('h1');
+        popupMessage.classList.add('popup-message');
+        if (isTie) {
+            popupMessage.textContent = "It's a tie!";
+        } else {
+            popupMessage.textContent = `${activePlayer.name} wins this round!`;
+        }
+        popup.appendChild(popupMessage);
+        const popupButtonsContainer = document.createElement('div');
+        popupButtonsContainer.classList.add('popup-buttons-container');
+        popup.appendChild(popupButtonsContainer);
+        const buttonNewRound = document.createElement('button');
+        buttonNewRound.classList.add('popup-button');
+        buttonNewRound.setAttribute('id', 'button-new-round');
+        buttonNewRound.textContent = 'New Round';
+        popupButtonsContainer.appendChild(buttonNewRound);
+        const buttonNewGame = document.createElement('button');
+        buttonNewGame.classList.add('popup-button');
+        buttonNewGame.setAttribute('id', 'button-new-game');
+        buttonNewGame.textContent = 'New Game';
+        popupButtonsContainer.appendChild(buttonNewGame);
+    }
+
+    function openPopup() {
+        const boardDiv = document.querySelector('#game-board');
+        boardDiv.style.zIndex = 0;
+        const popup = document.querySelector('.popup');
+        const overlay = document.querySelector('.overlay');
+        popup.classList.add('open-popup');
+        overlay.classList.add('active');
+    }
+
+    function closePopup() {
+        const popup = document.querySelector('.popup');
+        const overlay = document.querySelector('.overlay');
+        popup.classList.remove('open-popup');
+        overlay.classList.remove('active');
+    }
 
     printNewRound();
 
@@ -341,19 +404,19 @@ function GameController(playerOneName, playerTwoName, playerOneChoice, playerTwo
 function ScreenController() {
     initializeGame();
     const game = GameController();
-    const boardDiv = document.querySelector("#game-board");
+    const boardDiv = document.querySelector('#game-board');
 
-    const updateBoard = () => {
-        boardDiv.innerHTML = "";
+    function updateBoard() {
+        boardDiv.innerHTML = '';
         const board = game.getBoard();
         board.forEach((row, rowIndex) => {
             row.forEach((cell, columnIndex) => {
-                const cellButton = document.createElement("button");
-                cellButton.classList.add("cell");
+                const cellButton = document.createElement('button');
+                cellButton.classList.add('cell');
                 cellButton.textContent = cell.getValue();
                 cellButton.dataset.row = rowIndex;
                 cellButton.dataset.column = columnIndex;
-                cellButton.addEventListener("click", clickHandlerBoard);
+                cellButton.addEventListener('click', clickHandlerBoard);
                 boardDiv.appendChild(cellButton);
             });
         });
@@ -369,7 +432,7 @@ function ScreenController() {
             updateBoard();
         }
     }
-    boardDiv.addEventListener("click", clickHandlerBoard);
+    boardDiv.addEventListener('click', clickHandlerBoard);
     updateBoard();
 }
 
