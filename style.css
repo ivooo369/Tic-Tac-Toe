@@ -48,7 +48,7 @@ nav {
     background-image: url('https://img.myloview.com/stickers/black-tic-tac-toe-game-icon-isolated-seamless-pattern-on-white-background-vector-700-233121076.jpg');
 }
 
-.popup {
+.popup-window {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -70,7 +70,7 @@ nav {
     box-shadow: #00000000 0px 1px 4px, #ffffff 0px 0px 0px 3px;
 }
 
-.open-popup {
+.open-popup-window {
     visibility: visible;
     transform: translate(-50%, -50%) scale(1);
 }
@@ -90,12 +90,12 @@ nav {
     display: block;
 }
 
-.popup-buttons-container {
+.popup-window-buttons-container {
     display: flex;
     gap: 1rem;
 }
 
-.popup-button {
+.popup-window-button {
     cursor: pointer;
     border: none;
     padding: 0.5rem;
@@ -110,7 +110,7 @@ nav {
     box-shadow: #00000000 0px 1px 4px, #ffffff 0px 0px 0px 2px;
 }
 
-.popup-button:hover {
+.popup-window-button:hover {
     background-position: right center;
 }
 
