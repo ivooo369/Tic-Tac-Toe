@@ -53,6 +53,7 @@ const Interface = () => {
         const buttonNewGame = document.querySelector('#button-new-game');
 
         playerOne_X.addEventListener('click', () => {
+            signs.forEach(sign => sign.style.border = '');
             isPlayerOne_X = true;
             isPlayerOne_O = false;
             isPlayerTwo_X = false;
@@ -61,6 +62,7 @@ const Interface = () => {
         });
 
         playerOne_O.addEventListener('click', () => {
+            signs.forEach(sign => sign.style.border = '');
             isPlayerOne_O = true;
             isPlayerOne_X = false;
             isPlayerTwo_X = false;
@@ -69,6 +71,7 @@ const Interface = () => {
         });
 
         playerTwo_X.addEventListener('click', () => {
+            signs.forEach(sign => sign.style.border = '');
             isPlayerTwo_X = true;
             isPlayerOne_X = false;
             isPlayerOne_O = false;
@@ -77,6 +80,7 @@ const Interface = () => {
         });
 
         playerTwo_O.addEventListener('click', () => {
+            signs.forEach(sign => sign.style.border = '');
             isPlayerTwo_O = true;
             isPlayerOne_X = false;
             isPlayerOne_O = false;
@@ -150,29 +154,13 @@ const Interface = () => {
         counterNumberOfTies.textContent = 0;
         signs.forEach(sign => {
             sign.classList.remove('active');
+            sign.style.border = '';
         });
     }
 
     function pressNewRoundButton() {
         const cells = boardDiv.querySelectorAll('.cell');
         cells.forEach(cell => cell.textContent = '');
-    }
-
-    function createPopupWindowButtons() {
-        const popupWindow = document.querySelector('.popup-window');
-        const popupWindowButtonsContainer = document.createElement('div');
-        popupWindowButtonsContainer.classList.add('popup-window-buttons-container');
-        popupWindow.appendChild(popupWindowButtonsContainer);
-        const buttonNewRound = document.createElement('button');
-        buttonNewRound.classList.add('popup-window-button');
-        buttonNewRound.setAttribute('id', 'button-new-round');
-        buttonNewRound.textContent = 'New Round';
-        popupWindowButtonsContainer.appendChild(buttonNewRound);
-        const buttonNewGame = document.createElement('button');
-        buttonNewGame.classList.add('popup-window-button');
-        buttonNewGame.setAttribute('id', 'button-new-game');
-        buttonNewGame.textContent = 'New Game';
-        popupWindowButtonsContainer.appendChild(buttonNewGame);
     }
 
     function createPopupWindow(isTie, activePlayer) {
@@ -190,7 +178,19 @@ const Interface = () => {
             popupWindowMessage.textContent = `${activePlayer.name} wins this round!`;
         }
         popupWindow.appendChild(popupWindowMessage);
-        createPopupWindowButtons();
+        const popupWindowButtonsContainer = document.createElement('div');
+        popupWindowButtonsContainer.classList.add('popup-window-buttons-container');
+        popupWindow.appendChild(popupWindowButtonsContainer);
+        const buttonNewRound = document.createElement('button');
+        buttonNewRound.classList.add('popup-window-button');
+        buttonNewRound.setAttribute('id', 'button-new-round');
+        buttonNewRound.textContent = 'New Round';
+        popupWindowButtonsContainer.appendChild(buttonNewRound);
+        const buttonNewGame = document.createElement('button');
+        buttonNewGame.classList.add('popup-window-button');
+        buttonNewGame.setAttribute('id', 'button-new-game');
+        buttonNewGame.textContent = 'New Game';
+        popupWindowButtonsContainer.appendChild(buttonNewGame);
     }
 
     function openPopup() {
