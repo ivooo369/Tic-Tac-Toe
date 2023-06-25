@@ -48,7 +48,7 @@ const Interface = () => {
 
     function handleEventListeners() {
         const startButton = document.querySelector('#start-button');
-        const exitButton = document.querySelector('#exit');
+        const exitButton = document.querySelector('#exit-button');
         const buttonNewRound = document.querySelector('#button-new-round');
         const buttonNewGame = document.querySelector('#button-new-game');
 
@@ -88,20 +88,42 @@ const Interface = () => {
             selectSign();
         });
 
-        startButton.addEventListener('click', pressStartButton);
-        exitButton.addEventListener('click', pressExitButton);
+        startButton.addEventListener('click', startNewGame);
+        exitButton.addEventListener('click', () => {
+            createExitPopup();
+            const buttonYes = document.querySelector('#button-yes');
+            const buttonNo = document.querySelector('#button-no');
+            if (buttonYes) {
+                buttonYes.addEventListener('click', () => {
+                    leaveGame();
+                    closeExitPopup();
+                });
+            } if (buttonNo) {
+                buttonNo.addEventListener('click', () => {
+                    closeExitPopup();
+                });
+            }
+            openExitPopup();
+        });
+
         if (buttonNewRound) {
             buttonNewRound.addEventListener('click', () => {
+                startNewRound();
+                closeResultPopup();
+            });
+        } if (buttonNewGame) {
+            buttonNewGame.addEventListener('click', () => {
                 handleEventListeners();
-                pressNewRoundButton();
-                closePopup();
+                leaveGame();
+                closeResultPopup();
             });
         }
+
         inputPlayerOneName.addEventListener('input', () => inputPlayerOneName.setCustomValidity(''));
         inputPlayerTwoName.addEventListener('input', () => inputPlayerTwoName.setCustomValidity(''));
     }
 
-    function pressStartButton(e) {
+    function startNewGame(e) {
         const spanPlayerOneName = document.querySelector('#span-playerOne-name');
         const spanPlayerTwoName = document.querySelector('#span-playerTwo-name');
         const playerOneScore = document.querySelector('#playerOne-score');
@@ -143,7 +165,7 @@ const Interface = () => {
         }
     }
 
-    function pressExitButton() {
+    function leaveGame() {
         mainPageContainer.style.display = 'none';
         startPageContainer.style.display = 'flex';
         inputPlayerOneName.value = '';
@@ -158,56 +180,98 @@ const Interface = () => {
         });
     }
 
-    function pressNewRoundButton() {
+    function startNewRound() {
         const cells = boardDiv.querySelectorAll('.cell');
         cells.forEach(cell => cell.textContent = '');
     }
 
-    function createPopupWindow(isTie, activePlayer) {
-        const popupWindow = document.createElement('div');
-        popupWindow.classList.add('popup-window');
-        mainPageContainer.appendChild(popupWindow);
+    function createResultPopup(isTie, activePlayer) {
+        const resultPopup = document.createElement('div');
+        resultPopup.classList.add('result-popup');
+        mainPageContainer.appendChild(resultPopup);
         const overlay = document.createElement('div');
         overlay.classList.add('overlay');
         mainPageContainer.appendChild(overlay);
-        const popupWindowMessage = document.createElement('h1');
-        popupWindowMessage.classList.add('popup-window-message');
+        const resultPopupMessage = document.createElement('h1');
+        resultPopupMessage.classList.add('popup-message');
         if (isTie) {
-            popupWindowMessage.textContent = "It's a tie!";
+            resultPopupMessage.textContent = "It's a tie!";
         } else {
-            popupWindowMessage.textContent = `${activePlayer.name} wins this round!`;
+            resultPopupMessage.textContent = `${activePlayer.name} wins this round!`;
         }
-        popupWindow.appendChild(popupWindowMessage);
-        const popupWindowButtonsContainer = document.createElement('div');
-        popupWindowButtonsContainer.classList.add('popup-window-buttons-container');
-        popupWindow.appendChild(popupWindowButtonsContainer);
+        resultPopup.appendChild(resultPopupMessage);
+        const resultPopupButtonsContainer = document.createElement('div');
+        resultPopupButtonsContainer.classList.add('popup-buttons-container');
+        resultPopup.appendChild(resultPopupButtonsContainer);
         const buttonNewRound = document.createElement('button');
-        buttonNewRound.classList.add('popup-window-button');
+        buttonNewRound.classList.add('popup-buttons');
         buttonNewRound.setAttribute('id', 'button-new-round');
         buttonNewRound.textContent = 'New Round';
-        popupWindowButtonsContainer.appendChild(buttonNewRound);
+        resultPopupButtonsContainer.appendChild(buttonNewRound);
         const buttonNewGame = document.createElement('button');
-        buttonNewGame.classList.add('popup-window-button');
+        buttonNewGame.classList.add('popup-buttons');
         buttonNewGame.setAttribute('id', 'button-new-game');
         buttonNewGame.textContent = 'New Game';
-        popupWindowButtonsContainer.appendChild(buttonNewGame);
+        resultPopupButtonsContainer.appendChild(buttonNewGame);
     }
 
-    function openPopup() {
-        const popupWindow = document.querySelector('.popup-window');
+    function openResultPopup() {
+        const resultPopup = document.querySelector('.result-popup');
         const overlay = document.querySelector('.overlay');
         boardDiv.style.zIndex = 0;
-        popupWindow.classList.add('open-popup-window');
+        resultPopup.classList.add('open-result-popup');
         overlay.classList.add('active');
     }
 
-    function closePopup() {
-        const popupWindow = document.querySelector('.popup-window');
+    function closeResultPopup() {
+        const resultPopup = document.querySelector('.result-popup');
         const overlay = document.querySelector('.overlay');
-        popupWindow.classList.remove('open-popup-window');
+        resultPopup.classList.remove('open-result-popup');
         overlay.classList.remove('active');
     }
-    return { handleEventListeners, createPopup: createPopupWindow, openPopup };
+
+    function createExitPopup() {
+        const exitPopup = document.createElement('div');
+        exitPopup.classList.add('exit-popup');
+        mainPageContainer.appendChild(exitPopup);
+        const overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+        mainPageContainer.appendChild(overlay);
+        const exitPopupMessage = document.createElement('h1');
+        exitPopupMessage.classList.add('popup-message');
+        exitPopupMessage.textContent = 'Are you sure you want to leave the game?';
+        exitPopup.appendChild(exitPopupMessage);
+        const exitPopupButtonsContainer = document.createElement('div');
+        exitPopupButtonsContainer.classList.add('popup-buttons-container');
+        exitPopup.appendChild(exitPopupButtonsContainer);
+        const buttonYes = document.createElement('button');
+        buttonYes.classList.add('popup-buttons');
+        buttonYes.setAttribute('id', 'button-yes');
+        buttonYes.textContent = 'Yes';
+        exitPopupButtonsContainer.appendChild(buttonYes);
+        const buttonNo = document.createElement('button');
+        buttonNo.classList.add('popup-buttons');
+        buttonNo.setAttribute('id', 'button-no');
+        buttonNo.textContent = 'No';
+        exitPopupButtonsContainer.appendChild(buttonNo);
+    }
+
+    function openExitPopup() {
+        const exitPopup = document.querySelector('.exit-popup');
+        const overlay = document.querySelector('.overlay');
+        boardDiv.style.zIndex = 0;
+        exitPopup.classList.add('open-exit-popup');
+        overlay.classList.add('active');
+    }
+
+    function closeExitPopup() {
+        const exitPopup = document.querySelector('.exit-popup');
+        const overlay = document.querySelector('.overlay');
+        exitPopup.classList.remove('open-exit-popup');
+        overlay.classList.remove('active');
+    }
+
+    return { handleEventListeners, createResultPopup, openResultPopup };
 };
 
 const Validation = () => {
@@ -366,15 +430,15 @@ const GameController = (playerOneName, playerTwoName, playerOneChoice, playerTwo
                 if (activePlayer.name === playerOneName) {
                     isTie = false;
                     counterPlayerOneScore.textContent = parseInt(counterPlayerOneScore.textContent + 1);
-                    interface.createPopup(isTie, activePlayer);
-                    setTimeout(interface.openPopup, 1000);
+                    interface.createResultPopup(isTie, activePlayer);
+                    interface.openResultPopup();
                     interface.handleEventListeners();
                     return;
                 } else if (activePlayer.name === playerTwoName) {
                     isTie = false;
                     counterPlayerTwoScore.textContent = parseInt(counterPlayerTwoScore.textContent + 1);
-                    interface.createPopup(isTie, activePlayer);
-                    setTimeout(interface.openPopup, 1000);
+                    interface.createResultPopup(isTie, activePlayer);
+                    interface.openResultPopup();
                     interface.handleEventListeners();
                     return;
                 }
@@ -385,8 +449,8 @@ const GameController = (playerOneName, playerTwoName, playerOneChoice, playerTwo
                 playerTurnDiv.textContent = "It's a tie!";
                 counterTotalRounds.textContent = parseInt(counterTotalRounds.textContent + 1);
                 counterNumberOfTies.textContent = parseInt(counterNumberOfTies.textContent + 1);
-                interface.createPopup(isTie, activePlayer);
-                setTimeout(interface.openPopup, 1000);
+                interface.createResultPopup(isTie, activePlayer);
+                interface.openResultPopup();
                 interface.handleEventListeners();
                 return;
             }
