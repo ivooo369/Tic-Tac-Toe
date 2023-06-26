@@ -88,7 +88,7 @@ const Interface = () => {
             selectSign();
         });
 
-        startButton.addEventListener('click', startNewGame);
+        startButton.addEventListener('click', playNewRound);
         exitButton.addEventListener('click', () => {
             createExitPopup();
             const buttonYes = document.querySelector('#button-yes');
@@ -108,7 +108,8 @@ const Interface = () => {
 
         if (buttonNewRound) {
             buttonNewRound.addEventListener('click', () => {
-                startNewRound();
+                handleEventListeners();
+                playNewRound();
                 closeResultPopup();
             });
         } if (buttonNewGame) {
@@ -123,7 +124,7 @@ const Interface = () => {
         inputPlayerTwoName.addEventListener('input', () => inputPlayerTwoName.setCustomValidity(''));
     }
 
-    function startNewGame(e) {
+    function playNewRound() {
         const spanPlayerOneName = document.querySelector('#span-playerOne-name');
         const spanPlayerTwoName = document.querySelector('#span-playerTwo-name');
         const playerOneScore = document.querySelector('#playerOne-score');
@@ -133,7 +134,6 @@ const Interface = () => {
         const validation = Validation();
 
         if (validation.validateNames() && validation.validateSignSelection()) {
-            e.preventDefault();
             startPageContainer.style.display = 'none';
             mainPageContainer.style.display = 'flex';
             spanPlayerOneName.textContent = `${inputPlayerOneName.value}`;
@@ -151,15 +151,18 @@ const Interface = () => {
                         const cellButton = document.createElement('button');
                         cellButton.classList.add('cell');
                         cellButton.textContent = cell.getValue();
-                        cellButton.addEventListener('click', () => clickHandlerBoard(rowIndex, columnIndex));
+                        cellButton.addEventListener('click', (e) => clickHandlerBoard(e, rowIndex, columnIndex));
                         boardDiv.appendChild(cellButton);
                     });
                 });
             };
 
-            function clickHandlerBoard(row, column) {
-                game.playRound(row, column);
-                updateScreen();
+            function clickHandlerBoard(e, row, column) {
+                const cellButton = e.target;
+                if (cellButton.classList.contains('cell')) {
+                    game.playMove(row, column);
+                    updateScreen();
+                }
             }
             updateScreen();
         }
@@ -180,12 +183,13 @@ const Interface = () => {
         });
     }
 
-    function startNewRound() {
-        const cells = boardDiv.querySelectorAll('.cell');
-        cells.forEach(cell => cell.textContent = '');
+    function removeExistingResultPopups() {
+        const existingResultPopups = document.querySelectorAll('.result-popup');
+        existingResultPopups.forEach(popup => popup.remove());
     }
 
     function createResultPopup(isTie, activePlayer) {
+        removeExistingResultPopups();
         const resultPopup = document.createElement('div');
         resultPopup.classList.add('result-popup');
         mainPageContainer.appendChild(resultPopup);
@@ -270,7 +274,6 @@ const Interface = () => {
         exitPopup.classList.remove('open-exit-popup');
         overlay.classList.remove('active');
     }
-
     return { handleEventListeners, createResultPopup, openResultPopup };
 };
 
@@ -416,7 +419,7 @@ const GameController = (playerOneName, playerTwoName, playerOneChoice, playerTwo
         playerTurnDiv.textContent = `${activePlayer.name}'s turn`;
     };
 
-    function playRound(row, column) {
+    function playMove(row, column) {
         let isTie = false;
 
         if (checkWinner()) {
@@ -466,7 +469,7 @@ const GameController = (playerOneName, playerTwoName, playerOneChoice, playerTwo
 
     printNewRound();
 
-    return { getBoard: board.getBoard, playRound };
+    return { getBoard: board.getBoard, playMove };
 };
 
 const ScreenController = () => {
@@ -497,7 +500,7 @@ const ScreenController = () => {
         const column = parseInt(selectedButton.dataset.column);
 
         if (!isNaN(row) && !isNaN(column)) {
-            game.playRound(row, column);
+            game.playMove(row, column);
             updateBoard();
         }
     }
