@@ -133,6 +133,8 @@ const Interface = () => {
 
         const validation = Validation();
 
+        switchPlayerSign();
+
         if (validation.validateNames() && validation.validateSignSelection()) {
             startPageContainer.style.display = 'none';
             mainPageContainer.style.display = 'flex';
@@ -164,7 +166,32 @@ const Interface = () => {
                     updateScreen();
                 }
             }
+
             updateScreen();
+        }
+    }
+
+    function switchPlayerSign() {
+        switch (true) {
+            case playerOne_X.classList.contains('active'):
+                playerOneChoice = 'X';
+                playerTwoChoice = 'O';
+                break;
+            case playerOne_O.classList.contains('active'):
+                playerOneChoice = 'O';
+                playerTwoChoice = 'X';
+                break;
+        }
+
+        switch (parseInt(counterTotalRounds.textContent) % 2 === 1) {
+            case playerOneChoice === 'X':
+                playerOneChoice = 'O';
+                playerTwoChoice = 'X';
+                break;
+            case playerOneChoice === 'O':
+                playerOneChoice === 'X';
+                playerTwoChoice === 'O';
+                break;
         }
     }
 
@@ -429,17 +456,17 @@ const GameController = (playerOneName, playerTwoName, playerOneChoice, playerTwo
         if (signPlaced) {
             if (checkWinner()) {
                 playerTurnDiv.textContent = `${activePlayer.name} wins!`;
-                counterTotalRounds.textContent = parseInt(counterTotalRounds.textContent + 1);
+                counterTotalRounds.textContent = parseInt(counterTotalRounds.textContent) + 1;
                 if (activePlayer.name === playerOneName) {
                     isTie = false;
-                    counterPlayerOneScore.textContent = parseInt(counterPlayerOneScore.textContent + 1);
+                    counterPlayerOneScore.textContent = parseInt(counterPlayerOneScore.textContent) + 1;
                     interface.createResultPopup(isTie, activePlayer);
                     interface.openResultPopup();
                     interface.handleEventListeners();
                     return;
                 } else if (activePlayer.name === playerTwoName) {
                     isTie = false;
-                    counterPlayerTwoScore.textContent = parseInt(counterPlayerTwoScore.textContent + 1);
+                    counterPlayerTwoScore.textContent = parseInt(counterPlayerTwoScore.textContent) + 1;
                     interface.createResultPopup(isTie, activePlayer);
                     interface.openResultPopup();
                     interface.handleEventListeners();
@@ -450,8 +477,8 @@ const GameController = (playerOneName, playerTwoName, playerOneChoice, playerTwo
             if (checkForTie()) {
                 isTie = true;
                 playerTurnDiv.textContent = "It's a tie!";
-                counterTotalRounds.textContent = parseInt(counterTotalRounds.textContent + 1);
-                counterNumberOfTies.textContent = parseInt(counterNumberOfTies.textContent + 1);
+                counterTotalRounds.textContent = parseInt(counterTotalRounds.textContent) + 1;
+                counterNumberOfTies.textContent = parseInt(counterNumberOfTies.textContent) + 1;
                 interface.createResultPopup(isTie, activePlayer);
                 interface.openResultPopup();
                 interface.handleEventListeners();
