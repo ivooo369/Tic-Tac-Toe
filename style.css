@@ -415,7 +415,7 @@ input[type=text] {
     }
 
     .cell {
-        font-size: 6.25rem;
+        font-size: 6rem;
     }
 
     .popup-message {
@@ -449,12 +449,12 @@ input[type=text] {
     }
 
     .title {
-        font-size: 3.5rem;
+        font-size: 3rem;
         white-space: nowrap;
     }
 
     .main-page-container {
-        height: calc(100vh - 4rem);
+        height: calc(100vh - 3rem);
     }
 
     .start-page-container {
