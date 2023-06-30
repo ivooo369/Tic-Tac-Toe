@@ -9,7 +9,7 @@ const counterTotalRounds = document.querySelector('#counter-total-rounds');
 const counterPlayerOneScore = document.querySelector('#counter-playerOne-score');
 const counterPlayerTwoScore = document.querySelector('#counter-playerTwo-score');
 const counterNumberOfTies = document.querySelector('#counter-number-of-ties');
-const boardDiv = document.querySelector('#game-board');
+const boardDiv = document.querySelector('.game-board');
 
 const Interface = () => {
     const startPageContainer = document.querySelector('.start-page-container');
@@ -47,8 +47,8 @@ const Interface = () => {
     };
 
     function handleEventListeners() {
-        const startButton = document.querySelector('#start-button');
-        const exitButton = document.querySelector('#exit-button');
+        const startButton = document.querySelector('.start-button');
+        const exitButton = document.querySelector('.exit-button');
         const buttonNewRound = document.querySelector('#button-new-round');
         const buttonNewGame = document.querySelector('#button-new-game');
 
@@ -166,7 +166,6 @@ const Interface = () => {
                     updateScreen();
                 }
             }
-
             updateScreen();
         }
     }
@@ -416,7 +415,7 @@ const Cell = () => {
 };
 
 const GameController = (playerOneName, playerTwoName, playerOneChoice, playerTwoChoice) => {
-    const playerTurnDiv = document.querySelector('#player-turn');
+    const playerTurnDiv = document.querySelector('.player-turn');
 
     const board = Gameboard();
     const interface = Interface();
