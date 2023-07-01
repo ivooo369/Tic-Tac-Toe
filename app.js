@@ -248,6 +248,8 @@ const Interface = () => {
     function openResultPopup() {
         const resultPopup = document.querySelector('.result-popup');
         const overlay = document.querySelector('.overlay');
+        resultPopup.classList.add('.popup-visible');
+        document.body.classList.add('popup-visible');
         boardDiv.style.zIndex = 0;
         resultPopup.classList.add('open-result-popup');
         overlay.classList.add('active');
@@ -256,6 +258,8 @@ const Interface = () => {
     function closeResultPopup() {
         const resultPopup = document.querySelector('.result-popup');
         const overlay = document.querySelector('.overlay');
+        resultPopup.classList.remove('.popup-visible');
+        document.body.classList.remove('popup-visible');
         resultPopup.classList.remove('open-result-popup');
         overlay.classList.remove('active');
     }
@@ -289,6 +293,8 @@ const Interface = () => {
     function openExitPopup() {
         const exitPopup = document.querySelector('.exit-popup');
         const overlay = document.querySelector('.overlay');
+        exitPopup.classList.add('.popup-visible');
+        document.body.classList.add('popup-visible');
         boardDiv.style.zIndex = 0;
         exitPopup.classList.add('open-exit-popup');
         overlay.classList.add('active');
@@ -297,6 +303,8 @@ const Interface = () => {
     function closeExitPopup() {
         const exitPopup = document.querySelector('.exit-popup');
         const overlay = document.querySelector('.overlay');
+        exitPopup.classList.remove('.popup-visible');
+        document.body.classList.remove('popup-visible');
         exitPopup.classList.remove('open-exit-popup');
         overlay.classList.remove('active');
     }
