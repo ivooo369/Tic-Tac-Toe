@@ -137,7 +137,7 @@ const Interface = () => {
 
         if (validation.validateNames() && validation.validateSignSelection()) {
             startPageContainer.style.display = 'none';
-            mainPageContainer.style.display = 'flex';
+            mainPageContainer.style.display = 'grid';
             spanPlayerOneName.textContent = `${inputPlayerOneName.value}`;
             spanPlayerTwoName.textContent = `${inputPlayerTwoName.value}`;
             playerOneScore.textContent = inputPlayerOneName.value;
